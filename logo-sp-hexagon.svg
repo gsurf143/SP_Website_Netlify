@@ -1,0 +1,42 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Modern geometric design with S and P -->
+  
+  <!-- Background hexagon -->
+  <polygon points="100,10 170,45 170,115 100,150 30,115 30,45" 
+           fill="#1F2937" 
+           stroke="#F59E0B" 
+           stroke-width="2"/>
+  
+  <!-- Letter S with modern geometric style -->
+  <path d="M 65 65
+           L 65 75
+           C 65 85, 85 85, 85 75
+           C 85 65, 65 65, 65 75
+           L 65 85
+           C 65 95, 85 95, 85 85
+           L 85 75"
+        fill="none" 
+        stroke="#FFFFFF" 
+        stroke-width="6" 
+        stroke-linecap="square"
+        stroke-linejoin="miter"/>
+  
+  <!-- Letter P with modern geometric style -->
+  <path d="M 115 55
+           L 115 105
+           M 115 55
+           L 135 55
+           C 145 55, 145 70, 135 70
+           L 115 70"
+        fill="none" 
+        stroke="#FFFFFF" 
+        stroke-width="6" 
+        stroke-linecap="square"
+        stroke-linejoin="miter"/>
+  
+  <!-- Accent lines -->
+  <line x1="45" y1="40" x2="55" y2="40" stroke="#F59E0B" stroke-width="3"/>
+  <line x1="145" y1="40" x2="155" y2="40" stroke="#F59E0B" stroke-width="3"/>
+  <line x1="45" y1="120" x2="55" y2="120" stroke="#F59E0B" stroke-width="3"/>
+  <line x1="145" y1="120" x2="155" y2="120" stroke="#F59E0B" stroke-width="3"/>
+</svg>
