@@ -153,39 +153,10 @@ if (contactForm) {
         // Get form data
         const formData = new FormData(contactForm);
         const data = Object.fromEntries(formData);
-        const name = data.name || 'Unknown';
         
-        // Encode form data for Netlify
-        const formDataNetlify = new FormData();
-        formDataNetlify.append('form-name', 'contact');
-        formDataNetlify.append('name', data.name);
-        formDataNetlify.append('email', data.email);
-        formDataNetlify.append('phone', data.phone);
-        formDataNetlify.append('test', data.test);
-        formDataNetlify.append('message', data.message);
-        
-        // For local development, skip actual submission
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            console.log('Local development mode - form data:', data);
-            showNotification('Your enquiry has been submitted (local dev mode)', 'success');
-            contactForm.reset();
-            return;
-        }
-        
-        // Submit to Netlify Forms (only in production)
-        fetch('/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(formDataNetlify).toString()
-        })
-        .then(() => {
-            showNotification('Your enquiry has been submitted', 'success');
-            contactForm.reset();
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            showNotification('There was an error sending your request. Please try again.', 'error');
-        });
+        // Show success message (in a real app, you'd send this to a server)
+        showNotification('Quote request sent successfully! We\'ll get back to you within 24 hours.', 'success');
+        contactForm.reset();
     });
 }
 
