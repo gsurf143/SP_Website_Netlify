@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SP Logo Designs</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f9fafb;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .logo-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .logo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .logo-card h3 {
+            color: #1F2937;
+            margin: 20px 0 10px 0;
+            font-size: 1.2rem;
+        }
+        
+        .logo-card p {
+            color: #6B7280;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        .logo-card svg {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #1F2937;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .download-btn {
+            background: #F59E0B;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background: #D97706;
+        }
+    </style>
+</head>
+<body>
+    <h1>Modern SP Logo Designs</h1>
+    
+    <div class="logo-container">
+        <div class="logo-card">
+            <svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <!-- Background circle -->
+              <circle cx="100" cy="100" r="95" fill="#1F2937" stroke="#F59E0B" stroke-width="2"/>
+              
+              <!-- Letter S -->
+              <path d="M 60 70 
+                       C 60 55, 85 55, 85 70
+                       C 85 85, 60 85, 60 100
+                       C 60 115, 85 115, 85 100"
+                    fill="none" 
+                    stroke="#FFFFFF" 
+                    stroke-width="8" 
+                    stroke-linecap="round"/>
+              
+              <!-- Letter P -->
+              <path d="M 115 60
+                       L 115 120
+                       M 115 60
+                       C 115 45, 140 45, 140 60
+                       C 140 75, 115 75, 115 75"
+                    fill="none" 
+                    stroke="#FFFFFF" 
+                    stroke-width="8" 
+                    stroke-linecap="round"/>
+              
+              <!-- Decorative elements -->
+              <circle cx="50" cy="50" r="3" fill="#F59E0B" opacity="0.8"/>
+              <circle cx="150" cy="50" r="3" fill="#F59E0B" opacity="0.8"/>
+              <circle cx="50" cy="150" r="3" fill="#F59E0B" opacity="0.8"/>
+              <circle cx="150" cy="150" r="3" fill="#F59E0B" opacity="0.8"/>
+            </svg>
+            <h3>Classic Professional</h3>
+            <p>Traditional circular design with decorative elements</p>
+            <button class="download-btn" onclick="downloadLogo('logo-sp.svg')">Download SVG</button>
+        </div>
+        
+        <div class="logo-card">
+            <svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <!-- Modern geometric design with S and P -->
+              
+              <!-- Background hexagon -->
+              <polygon points="100,10 170,45 170,115 100,150 30,115 30,45" 
+                       fill="#1F2937" 
+                       stroke="#F59E0B" 
+                       stroke-width="2"/>
+              
+              <!-- Letter S with modern geometric style -->
+              <path d="M 65 65
+                       L 65 75
+                       C 65 85, 85 85, 85 75
+                       C 85 65, 65 65, 65 75
+                       L 65 85
+                       C 65 95, 85 95, 85 85
+                       L 85 75"
+                    fill="none" 
+                    stroke="#FFFFFF" 
+                    stroke-width="6" 
+                    stroke-linecap="square"
+                    stroke-linejoin="miter"/>
+              
+              <!-- Letter P with modern geometric style -->
+              <path d="M 115 55
+                       L 115 105
+                       M 115 55
+                       L 135 55
+                       C 145 55, 145 70, 135 70
+                       L 115 70"
+                    fill="none" 
+                    stroke="#FFFFFF" 
+                    stroke-width="6" 
+                    stroke-linecap="square"
+                    stroke-linejoin="miter"/>
+              
+              <!-- Accent lines -->
+              <line x1="45" y1="40" x2="55" y2="40" stroke="#F59E0B" stroke-width="3"/>
+              <line x1="145" y1="40" x2="155" y2="40" stroke="#F59E0B" stroke-width="3"/>
+              <line x1="45" y1="120" x2="55" y2="120" stroke="#F59E0B" stroke-width="3"/>
+              <line x1="145" y1="120" x2="155" y2="120" stroke="#F59E0B" stroke-width="3"/>
+            </svg>
+            <h3>Geometric Modern</h3>
+            <p>Hexagonal shape with clean, angular design</p>
+            <button class="download-btn" onclick="downloadLogo('logo-sp-hexagon.svg')">Download SVG</button>
+        </div>
+        
+        <div class="logo-card">
+            <svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <!-- Minimalist modern design -->
+              
+              <!-- Gradient definition -->
+              <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#EF4444;stop-opacity:1" />
+                </linearGradient>
+              </defs>
+              
+              <!-- Letter S -->
+              <path d="M 50 80
+                       C 50 60, 80 60, 80 80
+                       C 80 100, 50 100, 50 120
+                       C 50 140, 80 140, 80 120"
+                    fill="none" 
+                    stroke="url(#logoGradient)" 
+                    stroke-width="12" 
+                    stroke-linecap="round"/>
+              
+              <!-- Letter P -->
+              <path d="M 120 60
+                       L 120 140
+                       M 120 60
+                       C 120 40, 150 40, 150 60
+                       C 150 80, 120 80, 120 80"
+                    fill="none" 
+                    stroke="url(#logoGradient)" 
+                    stroke-width="12" 
+                    stroke-linecap="round"/>
+              
+              <!-- Connecting element -->
+              <circle cx="100" cy="100" r="4" fill="#1F2937"/>
+              <line x1="85" y1="100" x2="115" y2="100" stroke="#1F2937" stroke-width="3"/>
+            </svg>
+            <h3>Gradient Minimal</h3>
+            <p>Clean design with gradient colors and connector</p>
+            <button class="download-btn" onclick="downloadLogo('logo-sp-minimal.svg')">Download SVG</button>
+        </div>
+    </div>
+    
+    <script>
+        function downloadLogo(filename) {
+            window.open(filename, '_blank');
+        }
+    </script>
+</body>
+</html>
