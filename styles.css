@@ -1361,7 +1361,7 @@ section {
 .info-label {
     font-weight: 500;
     color: var(--text-secondary);
-    min-width: 140px;
+    min-width: 160px;
     flex-shrink: 0;
 }
 
