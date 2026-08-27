@@ -67,5 +67,3 @@
   package = "netlify-plugin-submit-sitemap"
   [plugins.inputs]
     baseUrl = "https://nemesgeod.co.uk"
-    buildTime = 600
-    prettyURLs = true
