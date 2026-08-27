@@ -161,7 +161,6 @@ if (contactForm) {
         formDataNetlify.append('name', data.name);
         formDataNetlify.append('email', data.email);
         formDataNetlify.append('phone', data.phone);
-        formDataNetlify.append('test', data.test);
         formDataNetlify.append('message', data.message);
         
         // For local development, skip actual submission
@@ -379,6 +378,6 @@ activeStyle.textContent = `
 document.head.appendChild(activeStyle);
 
 // Console welcome message
-console.log('%c🏗️ Welcome to Sujendra Construction!', 'color: #1F2937; font-size: 20px; font-weight: bold;');
-console.log('%cBuilding Excellence Since 1995', 'color: #F59E0B; font-size: 14px;');
-console.log('%cPrecision Construction, Reliable Foundation', 'color: #10B981; font-size: 12px;');
+console.log('%c🏗️ Welcome to Nemesgeod Ltd!', 'color: #1F2937; font-size: 20px; font-weight: bold;');
+console.log('%cBuilding Excellence Since 2016', 'color: #F59E0B; font-size: 14px;');
+console.log('%cPrecision Surveying, Reliable Foundation', 'color: #10B981; font-size: 12px;');

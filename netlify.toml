@@ -62,8 +62,3 @@
   package = "@netlify/plugin-lighthouse"
   [plugins.inputs]
     thresholds = 80
-
-[[plugins]]
-  package = "netlify-plugin-submit-sitemap"
-  [plugins.inputs]
-    baseUrl = "https://nemesgeod.co.uk"
