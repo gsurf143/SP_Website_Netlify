@@ -61,7 +61,7 @@
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
   [plugins.inputs]
-    threshold = 80
+    thresholds = 80
 
 [[plugins]]
   package = "netlify-plugin-submit-sitemap"
