@@ -719,6 +719,10 @@ section {
     position: relative;
 }
 
+.project-overview .section-title {
+    font-size: 2.5rem;
+}
+
 .section-title::after {
     content: '';
     position: absolute;
@@ -1227,12 +1231,14 @@ section {
     padding: 4rem 2rem 2rem;
     color: white;
     width: 100%;
+    text-align: center;
 }
 
 .project-breadcrumb {
     margin-bottom: 1rem;
     font-size: 0.9rem;
     opacity: 0.8;
+    text-align: center;
 }
 
 .project-breadcrumb a {
@@ -1250,10 +1256,11 @@ section {
 }
 
 .project-hero-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(3rem, 6vw, 4.5rem);
     font-weight: 700;
     margin-bottom: 0.5rem;
     color: white;
+    text-align: center;
 }
 
 .project-hero-subtitle {
@@ -1266,6 +1273,7 @@ section {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .project-tag {
@@ -1354,11 +1362,16 @@ section {
 .info-label {
     font-weight: 500;
     color: var(--text-secondary);
+    min-width: 140px;
+    flex-shrink: 0;
 }
 
 .info-value {
     font-weight: 600;
     color: var(--text-primary);
+    text-align: left;
+    flex-grow: 1;
+    margin-left: 1rem;
 }
 
 .project-cta {
@@ -1377,6 +1390,42 @@ section {
 .project-cta p {
     margin-bottom: 1.5rem;
     opacity: 0.9;
+}
+
+.clients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.client-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.client-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.client-item i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.client-item span {
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.95rem;
 }
 
 .project-cta .btn {
