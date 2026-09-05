@@ -144,16 +144,206 @@ document.querySelectorAll('.stat-item').forEach(stat => {
     statsObserver.observe(stat);
 });
 
+// Form validation functions
+function validatePhone(phone) {
+    // UK phone format: +44 (0) XX XXXX XXXX or 0XXX XXX XXXX
+    // International format: +XX XXX XXX XXXX
+    const phoneRegex = /^(\+44\s?(\(0\))?\s?|0)[1-9]\d{1,4}\s?\d{1,4}\s?\d{1,4}\s?\d{1,4}$/;
+    return phone === '' || phoneRegex.test(phone.replace(/\s/g, ''));
+}
+
+function validateMessage(message) {
+    return message.trim().length >= 10; // Minimum 10 characters
+}
+
+function showError(input, message) {
+    const formGroup = input.closest('.form-group');
+    let errorElement = formGroup.querySelector('.error-message');
+    
+    if (!errorElement) {
+        errorElement = document.createElement('div');
+        errorElement.className = 'error-message';
+        formGroup.appendChild(errorElement);
+    }
+    
+    errorElement.textContent = message;
+    input.classList.add('error');
+    input.classList.remove('valid');
+}
+
+function showSuccess(input) {
+    const formGroup = input.closest('.form-group');
+    const errorElement = formGroup.querySelector('.error-message');
+    
+    if (errorElement) {
+        errorElement.remove();
+    }
+    
+    input.classList.remove('error');
+    input.classList.add('valid');
+}
+
+function clearValidation(input) {
+    const formGroup = input.closest('.form-group');
+    const errorElement = formGroup.querySelector('.error-message');
+    
+    if (errorElement) {
+        errorElement.remove();
+    }
+    
+    input.classList.remove('error', 'valid');
+}
+
+// Real-time validation
+function setupRealTimeValidation() {
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const messageInput = document.getElementById('message');
+    
+    // Name validation
+    nameInput.addEventListener('blur', function() {
+        if (this.value.trim() === '') {
+            showError(this, 'Name is required');
+        } else if (this.value.trim().length < 2) {
+            showError(this, 'Name must be at least 2 characters');
+        } else {
+            showSuccess(this);
+        }
+    });
+    
+    nameInput.addEventListener('input', function() {
+        if (this.classList.contains('error')) {
+            clearValidation(this);
+        }
+    });
+    
+    // Email validation
+    emailInput.addEventListener('blur', function() {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (this.value.trim() === '') {
+            showError(this, 'Email is required');
+        } else if (!emailRegex.test(this.value)) {
+            showError(this, 'Please enter a valid email address');
+        } else {
+            showSuccess(this);
+        }
+    });
+    
+    emailInput.addEventListener('input', function() {
+        if (this.classList.contains('error')) {
+            clearValidation(this);
+        }
+    });
+    
+    // Phone validation
+    phoneInput.addEventListener('blur', function() {
+        if (this.value.trim() !== '' && !validatePhone(this.value)) {
+            showError(this, 'Please enter a valid phone number (e.g., +44 123 456 7890)');
+        } else if (this.value.trim() !== '') {
+            showSuccess(this);
+        } else {
+            clearValidation(this); // Phone is optional
+        }
+    });
+    
+    phoneInput.addEventListener('input', function() {
+        if (this.classList.contains('error')) {
+            clearValidation(this);
+        }
+    });
+    
+    // Message validation
+    messageInput.addEventListener('blur', function() {
+        if (this.value.trim() === '') {
+            showError(this, 'Message is required');
+        } else if (!validateMessage(this.value)) {
+            showError(this, 'Message must be at least 10 characters');
+        } else {
+            showSuccess(this);
+        }
+    });
+    
+    messageInput.addEventListener('input', function() {
+        if (this.classList.contains('error')) {
+            clearValidation(this);
+        }
+        
+        // Real-time character count
+        const charCount = this.value.trim().length;
+        const formGroup = this.closest('.form-group');
+        let charCountElement = formGroup.querySelector('.char-count');
+        
+        if (!charCountElement) {
+            charCountElement = document.createElement('div');
+            charCountElement.className = 'char-count';
+            formGroup.appendChild(charCountElement);
+        }
+        
+        charCountElement.textContent = `${charCount}/10 characters`;
+        charCountElement.style.color = charCount >= 10 ? '#10B981' : '#EF4444';
+    });
+}
+
 // Form submission handling
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
+    // Setup real-time validation
+    setupRealTimeValidation();
+    
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
         // Get form data
         const formData = new FormData(contactForm);
         const data = Object.fromEntries(formData);
-        const name = data.name || 'Unknown';
+        
+        // Custom validation
+        let isValid = true;
+        
+        // Validate name
+        const nameInput = document.getElementById('name');
+        if (data.name.trim() === '') {
+            showError(nameInput, 'Name is required');
+            isValid = false;
+        } else if (data.name.trim().length < 2) {
+            showError(nameInput, 'Name must be at least 2 characters');
+            isValid = false;
+        }
+        
+        // Validate email
+        const emailInput = document.getElementById('email');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (data.email.trim() === '') {
+            showError(emailInput, 'Email is required');
+            isValid = false;
+        } else if (!emailRegex.test(data.email)) {
+            showError(emailInput, 'Please enter a valid email address');
+            isValid = false;
+        }
+        
+        // Validate phone (optional but if provided must be valid)
+        const phoneInput = document.getElementById('phone');
+        if (data.phone.trim() !== '' && !validatePhone(data.phone)) {
+            showError(phoneInput, 'Please enter a valid phone number (e.g., +44 123 456 7890)');
+            isValid = false;
+        }
+        
+        // Validate message
+        const messageInput = document.getElementById('message');
+        if (data.message.trim() === '') {
+            showError(messageInput, 'Message is required');
+            isValid = false;
+        } else if (!validateMessage(data.message)) {
+            showError(messageInput, 'Message must be at least 10 characters');
+            isValid = false;
+        }
+        
+        // If validation fails, show error and stop
+        if (!isValid) {
+            showNotification('Please fix the errors in the form', 'error');
+            return;
+        }
         
         // Encode form data for Netlify
         const formDataNetlify = new FormData();
@@ -168,6 +358,10 @@ if (contactForm) {
             console.log('Local development mode - form data:', data);
             showNotification('Your enquiry has been submitted (local dev mode)', 'success');
             contactForm.reset();
+            // Clear validation states
+            document.querySelectorAll('.contact-form input, .contact-form textarea').forEach(input => {
+                clearValidation(input);
+            });
             return;
         }
         
@@ -180,6 +374,10 @@ if (contactForm) {
         .then(() => {
             showNotification('Your enquiry has been submitted', 'success');
             contactForm.reset();
+            // Clear validation states
+            document.querySelectorAll('.contact-form input, .contact-form textarea').forEach(input => {
+                clearValidation(input);
+            });
         })
         .catch((error) => {
             console.error('Error:', error);
