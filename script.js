@@ -1,3 +1,105 @@
+// Global Error Handling
+window.addEventListener('error', function(e) {
+    console.error('Global error:', e.error);
+    // Show user-friendly error message for critical errors
+    if (e.error && e.error.message) {
+        showNotification('An unexpected error occurred. Please refresh the page.', 'error');
+    }
+});
+
+// Handle unhandled promise rejections
+window.addEventListener('unhandledrejection', function(e) {
+    console.error('Unhandled promise rejection:', e.reason);
+    showNotification('A network error occurred. Please check your connection.', 'error');
+});
+
+// Loading indicator system
+let loadingIndicator = null;
+
+function showLoading() {
+    if (loadingIndicator) return;
+    
+    loadingIndicator = document.createElement('div');
+    loadingIndicator.className = 'loading-indicator';
+    loadingIndicator.innerHTML = `
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Processing...</div>
+    `;
+    loadingIndicator.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 10001;
+    `;
+    
+    const spinner = loadingIndicator.querySelector('.loading-spinner');
+    spinner.style.cssText = `
+        width: 50px;
+        height: 50px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    `;
+    
+    const text = loadingIndicator.querySelector('.loading-text');
+    text.style.cssText = `
+        margin-top: 1rem;
+        font-size: 1.1rem;
+        color: var(--text-primary);
+        font-weight: 500;
+    `;
+    
+    // Add spinner animation
+    if (!document.querySelector('#spinner-animation')) {
+        const style = document.createElement('style');
+        style.id = 'spinner-animation';
+        style.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    document.body.appendChild(loadingIndicator);
+    document.body.style.overflow = 'hidden';
+}
+
+function hideLoading() {
+    if (loadingIndicator) {
+        document.body.removeChild(loadingIndicator);
+        loadingIndicator = null;
+        document.body.style.overflow = '';
+    }
+}
+
+// Network error detection
+function checkNetworkStatus() {
+    if (!navigator.onLine) {
+        showNotification('You appear to be offline. Please check your internet connection.', 'error');
+        return false;
+    }
+    return true;
+}
+
+// Listen for network status changes
+window.addEventListener('online', () => {
+    showNotification('You are back online!', 'success');
+});
+
+window.addEventListener('offline', () => {
+    showNotification('You are offline. Some features may not work.', 'error');
+});
+
 // Side Menu Toggle
 const sideMenuToggle = document.getElementById('side-menu-toggle');
 const sideMenu = document.getElementById('side-menu');
@@ -345,6 +447,14 @@ if (contactForm) {
             return;
         }
         
+        // Check network status
+        if (!checkNetworkStatus()) {
+            return;
+        }
+        
+        // Show loading indicator
+        showLoading();
+        
         // Encode form data for Netlify
         const formDataNetlify = new FormData();
         formDataNetlify.append('form-name', 'contact');
@@ -356,12 +466,15 @@ if (contactForm) {
         // For local development, skip actual submission
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             console.log('Local development mode - form data:', data);
-            showNotification('Your enquiry has been submitted (local dev mode)', 'success');
-            contactForm.reset();
-            // Clear validation states
-            document.querySelectorAll('.contact-form input, .contact-form textarea').forEach(input => {
-                clearValidation(input);
-            });
+            setTimeout(() => {
+                hideLoading();
+                showNotification('Your enquiry has been submitted (local dev mode)', 'success');
+                contactForm.reset();
+                // Clear validation states
+                document.querySelectorAll('.contact-form input, .contact-form textarea').forEach(input => {
+                    clearValidation(input);
+                });
+            }, 1000); // Simulate network delay
             return;
         }
         
@@ -371,7 +484,11 @@ if (contactForm) {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams(formDataNetlify).toString()
         })
-        .then(() => {
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            hideLoading();
             showNotification('Your enquiry has been submitted', 'success');
             contactForm.reset();
             // Clear validation states
@@ -381,6 +498,7 @@ if (contactForm) {
         })
         .catch((error) => {
             console.error('Error:', error);
+            hideLoading();
             showNotification('There was an error sending your request. Please try again.', 'error');
         });
     });
@@ -393,19 +511,36 @@ function showNotification(message, type = 'info') {
     notification.className = `notification notification-${type}`;
     notification.textContent = message;
     
-    // Style the notification
+    // Style the notification based on type
+    let backgroundColor;
+    switch(type) {
+        case 'success':
+            backgroundColor = '#10B981';
+            break;
+        case 'error':
+            backgroundColor = '#EF4444';
+            break;
+        case 'warning':
+            backgroundColor = '#F59E0B';
+            break;
+        default:
+            backgroundColor = 'var(--primary-color)';
+    }
+    
     notification.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
         padding: 1rem 1.5rem;
-        background: ${type === 'success' ? 'var(--secondary-color)' : 'var(--primary-color)'};
+        background: ${backgroundColor};
         color: white;
         border-radius: 8px;
         box-shadow: var(--shadow-lg);
-        z-index: 10000;
+        z-index: 10002;
         transform: translateX(100%);
         transition: transform 0.3s ease;
+        max-width: 400px;
+        word-wrap: break-word;
     `;
     
     document.body.appendChild(notification);
@@ -415,13 +550,16 @@ function showNotification(message, type = 'info') {
         notification.style.transform = 'translateX(0)';
     }, 100);
     
-    // Remove after 3 seconds
+    // Remove after 4 seconds for error messages, 3 seconds for others
+    const removeTime = type === 'error' ? 4000 : 3000;
     setTimeout(() => {
         notification.style.transform = 'translateX(100%)';
         setTimeout(() => {
-            document.body.removeChild(notification);
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
         }, 300);
-    }, 3000);
+    }, removeTime);
 }
 
 // Parallax effect for hero section
